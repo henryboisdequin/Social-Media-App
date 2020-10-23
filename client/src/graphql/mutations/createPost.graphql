@@ -5,7 +5,7 @@ mutation CreatePost($input: PostInput!) {
     updatedAt
     title
     text
-    points
+    likeCount
     creatorId
   }
 }

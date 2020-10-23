@@ -29,9 +29,9 @@ export class Post extends BaseEntity {
 
   @Field()
   @Column({ type: "int", default: 0 })
-  points!: number;
+  likeCount!: number;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { defaultValue: false })
   likeStatus: boolean; // true or false
 
   @Field()

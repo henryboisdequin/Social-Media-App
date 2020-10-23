@@ -1,5 +1,5 @@
 import { Flex, IconButton } from "@chakra-ui/core";
-import { useVoteMutation } from "../generated/graphql";
+import { PostSnippetFragment, useVoteMutation } from "../generated/graphql";
 
 interface UpdootSectionProps {
   post: PostSnippetFragment;
@@ -12,7 +12,7 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
     <Flex direction="column" justifyContent="center" alignItems="center" mr={4}>
       <IconButton
         onClick={async () => {
-          if (post.voteStatus === 1) {
+          if (post.likeStatus === true) {
             return;
           }
           await vote({
@@ -22,12 +22,12 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
         }}
         icon="chevron-up"
         aria-label="Updoot"
-        variantColor={post.voteStatus === 1 ? "green" : undefined}
+        variantColor={post.likeStatus === true ? "green" : undefined}
       />
-      {post.points}
+      {post.likeCount}
       <IconButton
         onClick={async () => {
-          if (post.voteStatus === -1) {
+          if (post.likeStatus === false) {
             return;
           }
           await vote({
@@ -37,7 +37,7 @@ export const UpdootSection: React.FC<UpdootSectionProps> = ({ post }) => {
         }}
         icon="chevron-down"
         aria-label="Downdoot"
-        variantColor={post.voteStatus === -1 ? "red" : undefined}
+        variantColor={post.likeStatus === false ? "red" : undefined}
       />
     </Flex>
   );

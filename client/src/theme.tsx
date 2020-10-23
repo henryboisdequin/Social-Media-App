@@ -1,13 +1,5 @@
 import { theme as chakraTheme } from "@chakra-ui/core";
 
-// Warning
-console.info(
-  `
-%c🛑 STOP 🛑
-This is a browser feature intended for developers. If you are not a developer, kindly exit this page.`,
-  `font-size: 34px; color: red; font-family: "Trebuchet MS", Helvetica, sans-serif;`
-);
-
 const fonts = { ...chakraTheme.fonts, mono: `'Menlo', monospace` };
 
 const breakpoints = ["40em", "52em", "64em"];

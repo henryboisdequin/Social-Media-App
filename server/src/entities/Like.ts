@@ -10,13 +10,13 @@ export class Like extends BaseEntity {
   @PrimaryColumn()
   userId: number;
 
-  @ManyToOne(() => User, (user) => user.updoots)
+  @ManyToOne(() => User, (user) => user.likes)
   user: User;
 
   @PrimaryColumn()
   postId: number;
 
-  @ManyToOne(() => Post, (post) => post.updoots, {
+  @ManyToOne(() => Post, (post) => post.likes, {
     onDelete: "CASCADE",
   })
   post: Post;

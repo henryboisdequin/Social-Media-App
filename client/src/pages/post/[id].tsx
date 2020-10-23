@@ -1,12 +1,10 @@
-import { withUrqlClient } from "next-urql";
-import { useRouter } from "next/router";
-import React from "react";
-import { Layout } from "../../components/Layout";
-import { useMeQuery, usePostQuery } from "../../generated/graphql";
-import { createUrqlClient } from "../../utils/createUrqlClient";
 import { Box, Heading } from "@chakra-ui/core";
-import { UpdootSection } from "../../components/UpdootSection";
+import { withUrqlClient } from "next-urql";
+import React from "react";
 import { EditDeletePostButtons } from "../../components/EditDeletePostButtons";
+import { Layout } from "../../components/Layout";
+import { useMeQuery } from "../../generated/graphql";
+import { createUrqlClient } from "../../utils/createUrqlClient";
 import { useGetPostFromUrl } from "../../utils/useGetPostFromUrl";
 
 interface PostProps {}
