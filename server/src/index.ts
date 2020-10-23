@@ -1,7 +1,9 @@
 import path from "path";
 import { createConnection } from "typeorm";
-import { Hello } from "./entities/Hello";
 import express from "express";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { HelloResolver } from "./resolvers/hello";
 
 const main = async (PORT: number) => {
   // Create the connection
@@ -14,17 +16,29 @@ const main = async (PORT: number) => {
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     // entities = database tables
-    entities: [Hello],
+    entities: [],
   });
 
   // Create server
   const app = express();
 
-  // Put server on PORT
+  // Create REST Endpoint
   app.get("/", (_, res) => {
-    res.send("Hello World!");
+    res.send("🚀 Social Media App API");
   });
 
+  // Create graphql server
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [HelloResolver],
+      validate: false,
+    }),
+  });
+
+  // Create graphql endpoint
+  apolloServer.applyMiddleware({ app });
+
+  // Put server on PORT
   app.listen(PORT, () => {
     console.log(`🚀 Server is starting on localhost:${PORT}`);
   });
