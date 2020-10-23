@@ -15,7 +15,7 @@ import {
 } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Post } from "../entities/Post";
-import { Updoot } from "../entities/Updoot";
+import { Like } from "../entities/Like";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
 
@@ -48,7 +48,7 @@ export class PostResolver {
     return userLoader.load(post.creatorId);
   }
 
-  @FieldResolver(() => Int, { nullable: true })
+  @FieldResolver(() => Boolean, { nullable: true })
   async voteStatus(
     @Root() post: Post,
     @Ctx() { updootLoader, req }: MyContext
@@ -62,7 +62,7 @@ export class PostResolver {
       userId: req.session.userId,
     });
 
-    return updoot ? updoot.value : null;
+    return updoot ? updoot.liked : null;
   }
 
   @Mutation(() => Boolean)
@@ -75,9 +75,10 @@ export class PostResolver {
     const isUpdoot = value !== -1;
     const realValue = isUpdoot ? 1 : -1;
     const { userId } = req.session;
-    const updoot = await Updoot.findOne({ where: { postId, userId } });
+    const updoot = await Like.findOne({ where: { postId, userId } });
 
-    if (updoot && updoot.value !== realValue) {
+    if (updoot && 1 !== realValue) {
+      //updoot.liked
       // user voted on post before and changing vote
       await getConnection().transaction(async (tm) => {
         await tm.query(
@@ -126,8 +127,7 @@ export class PostResolver {
   @Query(() => PaginatedPosts)
   async posts(
     @Arg("limit", () => Int) limit: number,
-    @Arg("cursor", () => String, { nullable: true }) cursor: string | null,
-    @Ctx() { req }: MyContext
+    @Arg("cursor", () => String, { nullable: true }) cursor: string | null
   ): Promise<PaginatedPosts> {
     const realLimit = Math.min(50, limit);
     const realLimitPlusOne = realLimit + 1;

@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Post } from "./Post";
-import { Updoot } from "./Updoot";
+import { Like } from "./Like";
 
 @ObjectType()
 @Entity()
@@ -22,18 +22,14 @@ export class User extends BaseEntity {
   @Column({ unique: true })
   username!: string;
 
-  @Field()
-  @Column({ unique: true })
-  email!: string;
-
   @Column()
   password!: string;
 
   @OneToMany(() => Post, (post) => post.creator)
   posts: Post[];
 
-  @OneToMany(() => Updoot, (updoot) => updoot.user)
-  updoots: Updoot[];
+  @OneToMany(() => Like, (likes) => likes.user)
+  likes: Like[];
 
   @Field(() => String)
   @CreateDateColumn()

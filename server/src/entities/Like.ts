@@ -3,9 +3,9 @@ import { Post } from "./Post";
 import { User } from "./User";
 
 @Entity()
-export class Updoot extends BaseEntity {
-  @Column({ type: "int" })
-  value: number;
+export class Like extends BaseEntity {
+  @Column()
+  liked: boolean;
 
   @PrimaryColumn()
   userId: number;

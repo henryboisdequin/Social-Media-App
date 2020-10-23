@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType } from "type-graphql";
 import {
   BaseEntity,
   Column,
@@ -9,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Updoot } from "./Updoot";
+import { Like } from "./Like";
 import { User } from "./User";
 
 @ObjectType()
@@ -31,8 +31,8 @@ export class Post extends BaseEntity {
   @Column({ type: "int", default: 0 })
   points!: number;
 
-  @Field(() => Int, { nullable: true })
-  voteStatus: number | null; // 1 or -1 or null
+  @Field(() => Boolean)
+  likeStatus: boolean; // true or false
 
   @Field()
   @Column()
@@ -42,8 +42,8 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   creator: User;
 
-  @OneToMany(() => Updoot, (updoot) => updoot.post)
-  updoots: Updoot[];
+  @OneToMany(() => Like, (likes) => likes.post)
+  likes: Like[];
 
   @Field(() => String)
   @CreateDateColumn()

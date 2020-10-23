@@ -10,26 +10,24 @@ import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { COOKIE_NAME, __prod__ } from "./constants";
 import { Post } from "./entities/Post";
-import { Updoot } from "./entities/Updoot";
+import { Like } from "./entities/Like";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
-import { createUpdootLoader } from "./utils/createUpdootLoader";
+import { createLikeLoader } from "./utils/createLikeLoader";
 import { createUserLoader } from "./utils/createUserLoader";
-
-// npx typeorm migration:create -d ./src/migrations -n name
 
 const main = async (PORT: number) => {
   const conn = await createConnection({
     type: "postgres",
-    database: "blog2",
+    database: "socialMediaApp",
     username: "postgres",
     password: "postgres",
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Post, User, Updoot],
+    entities: [Post, User, Like],
   });
   await conn.runMigrations();
 
@@ -61,7 +59,7 @@ const main = async (PORT: number) => {
         secure: __prod__,
       },
       saveUninitialized: false,
-      secret: "qiownduwedfuweduheudhuehdu",
+      secret: "iLovePizzaRamen123IceCream",
       resave: false,
     })
   );
@@ -76,7 +74,7 @@ const main = async (PORT: number) => {
       res,
       redis,
       userLoader: createUserLoader(),
-      updootLoader: createUpdootLoader(),
+      updootLoader: createLikeLoader(),
     }),
   });
 
