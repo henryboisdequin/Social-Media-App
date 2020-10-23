@@ -51,7 +51,7 @@ export class PostResolver {
   @FieldResolver(() => Boolean, { nullable: true })
   async voteStatus(
     @Root() post: Post,
-    @Ctx() { updootLoader, req }: MyContext
+    @Ctx() { likeLoader: updootLoader, req }: MyContext
   ) {
     if (!req.session.userId) {
       return null;
