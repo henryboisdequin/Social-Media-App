@@ -1,7 +1,10 @@
 overwrite: true
+# where are api is
 schema: "http://localhost:4000/graphql"
+# where are graphql is
 documents: "src/graphql/**/*.graphql"
 generates:
+  # where it should generate
   src/generated/graphql.tsx:
     plugins:
       - "typescript"

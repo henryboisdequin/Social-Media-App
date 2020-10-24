@@ -14,7 +14,6 @@ import {
   MeDocument,
   MeQuery,
   RegisterMutation,
-  VoteMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import gql from "graphql-tag";
