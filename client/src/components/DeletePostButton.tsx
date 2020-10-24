@@ -8,6 +8,7 @@ interface DeletePostButtonProps {
 
 export const DeletePostButton: React.FC<DeletePostButtonProps> = ({ id }) => {
   const [, deletePost] = useDeletePostMutation();
+
   return (
     <Box>
       <IconButton
