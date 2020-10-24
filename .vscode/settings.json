@@ -4,11 +4,13 @@
         "Updoots",
         "Vercel",
         "chakra",
+        "codegen",
         "dataloader",
         "formik",
         "graphcache",
         "postgres",
         "resave",
+        "theming",
         "typeorm"
     ]
 }

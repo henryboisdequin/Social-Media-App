@@ -1,17 +1,17 @@
 import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
   Box,
   Button,
+  CircularProgress,
+  CloseButton,
   Flex,
   Heading,
   Link,
   Stack,
   Text,
-  CircularProgress,
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
-  CloseButton,
 } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";

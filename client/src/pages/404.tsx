@@ -1,8 +1,8 @@
+import { Box, Icon, Link, Text } from "@chakra-ui/core";
+import NextLink from "next/link";
 import React from "react";
 import { NavBar } from "../components/NavBar";
 import { Wrapper } from "../components/Wrapper";
-import { Box, Flex, Heading, Icon, Link, Text } from "@chakra-ui/core";
-import NextLink from "next/link";
 
 interface ErrorPageProps {}
 

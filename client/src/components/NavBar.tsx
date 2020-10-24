@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, IconButton, Link } from "@chakra-ui/core";
+import { Box, Button, Flex, Heading, Link } from "@chakra-ui/core";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -21,11 +21,13 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     body = (
       <>
         <NextLink href="/login">
-          <Link mr={2}>Login</Link>
+          <Link mr={2} color="white">
+            Login
+          </Link>
         </NextLink>
 
         <NextLink href="/register">
-          <Link>Register</Link>
+          <Link color="white">Register</Link>
         </NextLink>
       </>
     );

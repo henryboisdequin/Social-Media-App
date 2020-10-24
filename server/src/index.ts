@@ -27,7 +27,7 @@ const main = async (PORT: number) => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [Post, User],
   });
-  await conn.runMigrations();
+  // await conn.runMigrations();
 
   // await Post.delete({});
 
