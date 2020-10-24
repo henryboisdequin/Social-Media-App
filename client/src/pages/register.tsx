@@ -21,15 +21,16 @@ const Register: React.FC<registerProps> = ({}) => {
     <Layout>
       <Wrapper variant="small">
         <Formik
-          initialValues={{ email: "", username: "", password: "" }}
+          initialValues={{ username: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
             const response = await register({ options: values });
             console.log(response);
 
             if (response.data?.register.errors) {
+              // errors
               setErrors(toErrorMap(response.data.register.errors));
             } else if (response.data?.register.user) {
-              // worked
+              // if worked
               router.push("/");
             }
           }}
@@ -43,10 +44,6 @@ const Register: React.FC<registerProps> = ({}) => {
               />
 
               <Box mt={4}>
-                <InputField name="email" placeholder="email" label="Email" />
-              </Box>
-
-              <Box mt={4}>
                 <InputField
                   name="password"
                   placeholder="password"
@@ -57,7 +54,7 @@ const Register: React.FC<registerProps> = ({}) => {
               <Box mt={2}>
                 <NextLink href="/login">
                   <Link ml="auto" style={{ color: "grey" }}>
-                    Already a BlogStack user?
+                    Already a user?
                   </Link>
                 </NextLink>
               </Box>

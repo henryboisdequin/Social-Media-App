@@ -4,9 +4,7 @@ query Post($id: Int!) {
     createdAt
     updatedAt
     title
-    likeCount
     text
-    likeStatus
     creator {
       id
       username

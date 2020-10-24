@@ -4,6 +4,7 @@
         "Updoots",
         "chakra",
         "dataloader",
+        "formik",
         "postgres",
         "resave",
         "typeorm"

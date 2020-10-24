@@ -1,9 +1,9 @@
 import { Box, Button, Flex, Heading, Link } from "@chakra-ui/core";
-import React from "react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { isServer } from "../utils/isServer";
-import { useRouter } from "next/router";
 
 interface NavBarProps {}
 
@@ -36,8 +36,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
             Create Post
           </Button>
         </NextLink>
-        <Box mr={2}>{data.me.username}</Box>
+        <Box mr={2} color="white" textDecoration="underline">
+          Logged in as {data.me.username}
+        </Box>
         <Button
+          color="gray.300"
           onClick={async () => {
             await logout();
             router.reload();
@@ -52,12 +55,12 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
   }
 
   return (
-    <Flex zIndex={1} position="sticky" top={0} bg="tan" p={4}>
+    <Flex zIndex={1} position="sticky" top={0} bg="teal.400" p={4}>
       <Flex flex={1} m="auto" maxW={800} align="center">
         <NextLink href="/">
           <Link>
-            <Heading fontFamily="Tahoma, Geneva, sans-serif" color="#2b2d30">
-              BlogStack
+            <Heading fontFamily="Tahoma, Geneva, sans-serif" color="white">
+              SMA
             </Heading>
           </Link>
         </NextLink>

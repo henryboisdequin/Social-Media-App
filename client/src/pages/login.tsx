@@ -19,15 +19,16 @@ const Login: React.FC<{}> = ({}) => {
     <Layout>
       <Wrapper variant="small">
         <Formik
-          initialValues={{ username: "", password: "", email: "" }}
+          initialValues={{ username: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
             const response = await login(values);
             console.log(response);
 
             if (response.data?.login.errors) {
+              // errors
               setErrors(toErrorMap(response.data.login.errors));
             } else if (response.data?.login.user) {
-              // worked
+              // if worked
               typeof router.query.next === "string"
                 ? router.push(router.query.next)
                 : router.push("/");
@@ -41,10 +42,6 @@ const Login: React.FC<{}> = ({}) => {
                 placeholder="username"
                 label="Username"
               />
-
-              <Box mt={4}>
-                <InputField name="email" placeholder="email" label="Email" />
-              </Box>
 
               <Box mt={4}>
                 <InputField
@@ -65,7 +62,7 @@ const Login: React.FC<{}> = ({}) => {
                   <Box ml="auto" mt={2} position="unset">
                     <NextLink href="/register">
                       <Link ml="auto" style={{ color: "grey" }}>
-                        New to BlogStack?
+                        New to this platform?
                       </Link>
                     </NextLink>
                   </Box>

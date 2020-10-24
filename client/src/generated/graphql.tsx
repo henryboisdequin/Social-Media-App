@@ -42,14 +42,11 @@ export type Post = {
   id: Scalars['Float'];
   title: Scalars['String'];
   text: Scalars['String'];
-  likeCount: Scalars['Float'];
-  likeStatus?: Maybe<Scalars['Boolean']>;
   creatorId: Scalars['Float'];
   creator: User;
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
   textSnippet: Scalars['String'];
-  voteStatus?: Maybe<Scalars['Boolean']>;
 };
 
 export type User = {
@@ -62,9 +59,7 @@ export type User = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  vote: Scalars['Boolean'];
   createPost: Post;
-  updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
   register: UserResponse;
   login: UserResponse;
@@ -72,21 +67,8 @@ export type Mutation = {
 };
 
 
-export type MutationVoteArgs = {
-  value: Scalars['Int'];
-  postId: Scalars['Int'];
-};
-
-
 export type MutationCreatePostArgs = {
   input: PostInput;
-};
-
-
-export type MutationUpdatePostArgs = {
-  text: Scalars['String'];
-  title: Scalars['String'];
-  id: Scalars['Int'];
 };
 
 
@@ -129,7 +111,7 @@ export type UsernamePasswordInput = {
 
 export type PostSnippetFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'likeCount' | 'textSnippet' | 'likeStatus'>
+  & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'text' | 'textSnippet'>
   & { creator: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username'>
@@ -166,7 +148,7 @@ export type CreatePostMutation = (
   { __typename?: 'Mutation' }
   & { createPost: (
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'text' | 'likeCount' | 'creatorId'>
+    & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'text' | 'creatorId'>
   ) }
 );
 
@@ -215,17 +197,6 @@ export type RegisterMutation = (
   ) }
 );
 
-export type VoteMutationVariables = Exact<{
-  value: Scalars['Int'];
-  postId: Scalars['Int'];
-}>;
-
-
-export type VoteMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'vote'>
-);
-
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -246,7 +217,7 @@ export type PostQuery = (
   { __typename?: 'Query' }
   & { post?: Maybe<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'likeCount' | 'text' | 'likeStatus'>
+    & Pick<Post, 'id' | 'createdAt' | 'updatedAt' | 'title' | 'text'>
     & { creator: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'username'>
@@ -278,9 +249,8 @@ export const PostSnippetFragmentDoc = gql`
   createdAt
   updatedAt
   title
-  likeCount
+  text
   textSnippet
-  likeStatus
   creator {
     id
     username
@@ -318,7 +288,6 @@ export const CreatePostDocument = gql`
     updatedAt
     title
     text
-    likeCount
     creatorId
   }
 }
@@ -367,15 +336,6 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
-export const VoteDocument = gql`
-    mutation Vote($value: Int!, $postId: Int!) {
-  vote(value: $value, postId: $postId)
-}
-    `;
-
-export function useVoteMutation() {
-  return Urql.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument);
-};
 export const MeDocument = gql`
     query Me {
   me {
@@ -395,9 +355,7 @@ export const PostDocument = gql`
     createdAt
     updatedAt
     title
-    likeCount
     text
-    likeStatus
     creator {
       id
       username

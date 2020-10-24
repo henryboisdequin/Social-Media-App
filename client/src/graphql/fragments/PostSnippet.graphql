@@ -3,9 +3,8 @@ fragment PostSnippet on Post {
   createdAt
   updatedAt
   title
-  likeCount
+  text
   textSnippet
-  likeStatus
   creator {
     id
     username
