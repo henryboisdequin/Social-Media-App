@@ -54,7 +54,11 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         >
           Logout
         </Button>
-        <Flex ml={2}>{condition ? <DarkModeSwitch /> : null}</Flex>
+        {condition ? (
+          <Flex ml={2}>
+            <DarkModeSwitch />
+          </Flex>
+        ) : null}
       </Flex>
     );
   }

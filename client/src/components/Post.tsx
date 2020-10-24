@@ -27,17 +27,17 @@ export const Post: React.FC<PostProps> = ({ meData, post: p }) => {
           <Text flex={1} mt={4}>
             {p.textSnippet}
           </Text>
+          <Box ml="auto">
+            <Flex justifyContent="center" alignItems="center">
+              <Icon name="calendar" aria-label="Calender" mr={1} />
+              <Text>{moment().calendar(p.createdAt)}</Text>
+            </Flex>
+          </Box>
           {meData?.me?.id === p.creator.id ? (
-            <Box ml="auto">
-              <Flex justifyContent="center" alignItems="center">
-                <Icon name="calendar" aria-label="Calender" mr={1} />
-                <Text>{moment().calendar(p.createdAt)}</Text>
-              </Flex>
+            <Box ml={4}>
+              <DeletePostButton id={p.id} />
             </Box>
           ) : null}
-          <Box ml={4}>
-            <DeletePostButton id={p.id} />
-          </Box>
         </Flex>
       </Box>
     </Flex>
