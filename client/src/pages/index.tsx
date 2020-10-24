@@ -3,7 +3,6 @@ import {
   AlertDescription,
   AlertIcon,
   AlertTitle,
-  Box,
   Button,
   CircularProgress,
   CloseButton,
@@ -12,7 +11,6 @@ import {
 } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
-import { DeletePostButton } from "../components/DeletePostButton";
 import { Layout } from "../components/Layout";
 import { Post } from "../components/Post";
 import { useMeQuery, usePostsQuery } from "../generated/graphql";
@@ -45,6 +43,7 @@ const Index = () => {
     <Layout>
       {!data && fetching ? (
         <Flex justifyContent="center" alignItems="center">
+          {/* loading indicator */}
           <CircularProgress isIndeterminate size="120px" />
         </Flex>
       ) : (
