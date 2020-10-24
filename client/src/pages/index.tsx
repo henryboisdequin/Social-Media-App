@@ -1,7 +1,21 @@
-import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/core";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Link,
+  Stack,
+  Text,
+  CircularProgress,
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  CloseButton,
+} from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
 import NextLink from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import { DeletePostButton } from "../components/DeletePostButton";
 import { Layout } from "../components/Layout";
 import { useMeQuery, usePostsQuery } from "../generated/graphql";
@@ -21,17 +35,21 @@ const Index = () => {
 
   if (!fetching && !data) {
     return (
-      <div>
-        <h1>Error</h1>
-        <p>{error?.message}</p>
-      </div>
+      <Alert status="error">
+        <AlertIcon />
+        <AlertTitle mr={2}>Error</AlertTitle>
+        <AlertDescription>{error?.message}</AlertDescription>
+        <CloseButton position="absolute" right="8px" top="8px" />
+      </Alert>
     );
   }
 
   return (
     <Layout>
       {!data && fetching ? (
-        <div>loading...</div>
+        <Flex justifyContent="center" alignItems="center">
+          <CircularProgress value={30} size="120px" />
+        </Flex>
       ) : (
         <Stack spacing={8}>
           {data?.posts.posts.map((p) =>
