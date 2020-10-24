@@ -5,11 +5,9 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Like } from "./Like";
 import { User } from "./User";
 
 @ObjectType()
@@ -28,22 +26,12 @@ export class Post extends BaseEntity {
   text!: string;
 
   @Field()
-  @Column({ type: "int", default: 0 })
-  likeCount!: number;
-
-  @Field(() => Boolean, { defaultValue: false })
-  likeStatus: boolean; // true or false
-
-  @Field()
   @Column()
   creatorId: number;
 
   @Field()
   @ManyToOne(() => User, (user) => user.posts)
   creator: User;
-
-  @OneToMany(() => Like, (likes) => likes.post)
-  likes: Like[];
 
   @Field(() => String)
   @CreateDateColumn()

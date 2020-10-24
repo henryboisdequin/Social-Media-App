@@ -9,13 +9,11 @@ import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 import { COOKIE_NAME, __prod__ } from "./constants";
-import { Like } from "./entities/Like";
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/hello";
 import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
-import { createLikeLoader } from "./utils/createLikeLoader";
 import { createUserLoader } from "./utils/createUserLoader";
 
 const main = async (PORT: number) => {
@@ -27,11 +25,11 @@ const main = async (PORT: number) => {
     logging: true,
     synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
-    entities: [Post, User, Like],
+    entities: [Post, User],
   });
   await conn.runMigrations();
 
-  // await User.delete({});
+  // await Post.delete({});
 
   const app = express();
 
@@ -75,7 +73,6 @@ const main = async (PORT: number) => {
       res,
       redis,
       userLoader: createUserLoader(),
-      likeLoader: createLikeLoader(),
     }),
   });
 

@@ -13,7 +13,6 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { Like } from "../entities/Like";
 import { Post } from "../entities/Post";
 import { User } from "../entities/User";
 import { isAuth } from "../middleware/isAuth";
@@ -46,76 +45,6 @@ export class PostResolver {
   @FieldResolver(() => User)
   creator(@Root() post: Post, @Ctx() { userLoader }: MyContext) {
     return userLoader.load(post.creatorId);
-  }
-
-  @FieldResolver(() => Boolean, { nullable: true })
-  async voteStatus(@Root() post: Post, @Ctx() { likeLoader, req }: MyContext) {
-    if (!req.session.userId) {
-      return null;
-    }
-
-    const like = await likeLoader.load({
-      postId: post.id,
-      userId: req.session.userId,
-    });
-
-    return like ? like.liked : null;
-  }
-
-  @Mutation(() => Boolean)
-  @UseMiddleware(isAuth)
-  async like(
-    @Arg("postId", () => Int) postId: number,
-    @Arg("value", () => Boolean) value: boolean,
-    @Ctx() { req }: MyContext
-  ) {
-    const { userId } = req.session;
-    const like = await Like.findOne({ where: { postId, userId } });
-
-    if (like && like.liked !== value) {
-      // user voted on post before and changing vote
-      await getConnection().transaction(async (tm) => {
-        await tm.query(
-          `
-        update like
-        set liked = $1
-        where "postId" = $2 and "userId" = $3
-        `,
-          [value, postId, userId]
-        );
-
-        await tm.query(
-          `
-          update post
-          set points = points + $1
-          where id = $2
-        `,
-          [value, postId]
-        );
-      });
-    } else if (!like) {
-      // haven't voted before
-      await getConnection().transaction(async (tm) => {
-        await tm.query(
-          `
-          insert into like ("userId", "postId", value)
-          values ($1,$2,$3)
-          `,
-          [userId, postId, value]
-        );
-
-        await tm.query(
-          `   
-          update post
-          set likes = likes + $1
-          where id = $2
-          `,
-          [value, postId]
-        );
-      });
-    }
-
-    return true;
   }
 
   @Query(() => PaginatedPosts)
