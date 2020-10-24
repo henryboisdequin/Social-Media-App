@@ -1,6 +1,6 @@
 # Social Media App
 
-Social Media App for school course.
+Social Media App for ASA.
 
 **TODO**:
 

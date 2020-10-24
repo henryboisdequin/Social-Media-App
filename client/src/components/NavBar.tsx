@@ -15,6 +15,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
     pause: isServer(),
   });
   let body = null;
+  const condition = !isServer() && window.innerWidth > 1000;
 
   if (fetching) {
   } else if (!data?.me) {
@@ -40,7 +41,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
           </Button>
         </NextLink>
         <Box mr={2} color="white" textDecoration="underline">
-          Logged in as {data.me.username}
+          {condition ? "Logged in as" : null} {data.me.username}
         </Box>
         <Button
           color="gray.300"
@@ -53,9 +54,7 @@ export const NavBar: React.FC<NavBarProps> = ({}) => {
         >
           Logout
         </Button>
-        <Flex ml={2}>
-          <DarkModeSwitch />
-        </Flex>
+        <Flex ml={2}>{condition ? <DarkModeSwitch /> : null}</Flex>
       </Flex>
     );
   }
