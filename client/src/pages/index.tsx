@@ -45,7 +45,7 @@ const Index = () => {
     <Layout>
       {!data && fetching ? (
         <Flex justifyContent="center" alignItems="center">
-          <CircularProgress value={30} size="120px" />
+          <CircularProgress isIndeterminate size="120px" />
         </Flex>
       ) : (
         <Stack spacing={8}>

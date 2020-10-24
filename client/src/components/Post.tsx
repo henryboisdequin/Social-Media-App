@@ -1,17 +1,9 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Icon,
-  IconButton,
-  Link,
-  Text,
-} from "@chakra-ui/core";
+import { Box, Flex, Heading, Icon, Link, Text } from "@chakra-ui/core";
+import moment from "moment";
 import NextLink from "next/link";
 import React from "react";
 import { MeQuery, PostSnippetFragment } from "../generated/graphql";
 import { DeletePostButton } from "./DeletePostButton";
-import moment from "moment";
 
 interface PostProps {
   meData: MeQuery | undefined;
