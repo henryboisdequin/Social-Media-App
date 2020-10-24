@@ -7,7 +7,6 @@ import {
   CircularProgress,
   CloseButton,
   Flex,
-  Stack,
 } from "@chakra-ui/core";
 import { withUrqlClient } from "next-urql";
 import React, { useState } from "react";
@@ -18,7 +17,7 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = useState({
-    limit: 15,
+    limit: 16,
     cursor: null as null | string,
   });
 
@@ -47,11 +46,11 @@ const Index = () => {
           <CircularProgress isIndeterminate size="120px" />
         </Flex>
       ) : (
-        <Stack spacing={8}>
+        <Flex flexWrap="wrap" justifyContent="flex-start">
           {data?.posts.posts.map((p) =>
             !p ? null : <Post meData={meData} post={p} />
           )}
-        </Stack>
+        </Flex>
       )}
       {data && data.posts.hasMore ? (
         <Flex>

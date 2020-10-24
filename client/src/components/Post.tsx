@@ -12,7 +12,7 @@ interface PostProps {
 
 export const Post: React.FC<PostProps> = ({ meData, post: p }) => {
   return (
-    <Flex key={p.id} p={5} shadow="md" borderWidth="1px">
+    <Flex key={p.id} p={5} shadow="md" borderWidth="1px" minWidth={400}>
       <Box flex={1}>
         <NextLink
           href={meData?.me?.id ? "/post/[id]" : "/login"}
