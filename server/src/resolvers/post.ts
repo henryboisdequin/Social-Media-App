@@ -1,4 +1,3 @@
-import { User } from "../entities/User";
 import {
   Arg,
   Ctx,
@@ -14,8 +13,9 @@ import {
   UseMiddleware,
 } from "type-graphql";
 import { getConnection } from "typeorm";
-import { Post } from "../entities/Post";
 import { Like } from "../entities/Like";
+import { Post } from "../entities/Post";
+import { User } from "../entities/User";
 import { isAuth } from "../middleware/isAuth";
 import { MyContext } from "../types";
 
@@ -40,7 +40,7 @@ class PaginatedPosts {
 export class PostResolver {
   @FieldResolver(() => String)
   textSnippet(@Root() post: Post) {
-    return post.text.slice(0, 50);
+    return post.text.slice(0, 75);
   }
 
   @FieldResolver(() => User)
@@ -49,45 +49,39 @@ export class PostResolver {
   }
 
   @FieldResolver(() => Boolean, { nullable: true })
-  async voteStatus(
-    @Root() post: Post,
-    @Ctx() { likeLoader: updootLoader, req }: MyContext
-  ) {
+  async voteStatus(@Root() post: Post, @Ctx() { likeLoader, req }: MyContext) {
     if (!req.session.userId) {
       return null;
     }
 
-    const updoot = await updootLoader.load({
+    const like = await likeLoader.load({
       postId: post.id,
       userId: req.session.userId,
     });
 
-    return updoot ? updoot.liked : null;
+    return like ? like.liked : null;
   }
 
   @Mutation(() => Boolean)
   @UseMiddleware(isAuth)
-  async vote(
+  async like(
     @Arg("postId", () => Int) postId: number,
-    @Arg("value", () => Int) value: boolean,
+    @Arg("value", () => Boolean) value: boolean,
     @Ctx() { req }: MyContext
   ) {
-    const isUpdoot = value;
-    const realValue = isUpdoot ? 1 : -1;
     const { userId } = req.session;
-    const updoot = await Like.findOne({ where: { postId, userId } });
+    const like = await Like.findOne({ where: { postId, userId } });
 
-    if (updoot && 1 !== realValue) {
-      //updoot.liked
+    if (like && like.liked !== value) {
       // user voted on post before and changing vote
       await getConnection().transaction(async (tm) => {
         await tm.query(
           `
-        update updoot
-        set value = $1
+        update like
+        set liked = $1
         where "postId" = $2 and "userId" = $3
         `,
-          [realValue, postId, userId]
+          [value, postId, userId]
         );
 
         await tm.query(
@@ -96,27 +90,27 @@ export class PostResolver {
           set points = points + $1
           where id = $2
         `,
-          [2 * realValue, postId]
+          [value, postId]
         );
       });
-    } else if (!updoot) {
+    } else if (!like) {
       // haven't voted before
       await getConnection().transaction(async (tm) => {
         await tm.query(
           `
-          insert into updoot ("userId", "postId", value)
+          insert into like ("userId", "postId", value)
           values ($1,$2,$3)
           `,
-          [userId, postId, realValue]
+          [userId, postId, value]
         );
 
         await tm.query(
           `   
           update post
-          set points = points + $1
+          set likes = likes + $1
           where id = $2
           `,
-          [realValue, postId]
+          [value, postId]
         );
       });
     }

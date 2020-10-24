@@ -31,7 +31,7 @@ const main = async (PORT: number) => {
   });
   await conn.runMigrations();
 
-  // await Post.delete({});
+  // await User.delete({});
 
   const app = express();
 
