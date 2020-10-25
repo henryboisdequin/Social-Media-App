@@ -42,7 +42,6 @@ const Login: React.FC<{}> = ({}) => {
                 placeholder="username"
                 label="Username"
               />
-
               <Box mt={4}>
                 <InputField
                   name="password"
@@ -51,14 +50,6 @@ const Login: React.FC<{}> = ({}) => {
                   type="password"
                 />
                 <Flex>
-                  <Box mt={2}>
-                    <NextLink href="/forgot-password">
-                      <Link ml="auto" style={{ color: "grey" }}>
-                        Forgot Password?
-                      </Link>
-                    </NextLink>
-                  </Box>
-
                   <Box ml="auto" mt={2} position="unset">
                     <NextLink href="/register">
                       <Link ml="auto" style={{ color: "grey" }}>

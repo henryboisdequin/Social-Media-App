@@ -48,7 +48,7 @@ const Index = () => {
       ) : (
         <Flex flexWrap="wrap" justifyContent="flex-start">
           {data?.posts.posts.map((p) =>
-            !p ? null : <Post meData={meData} post={p} />
+            !p ? null : <Post meData={meData} post={p} key={p.id} />
           )}
         </Flex>
       )}
