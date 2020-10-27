@@ -17,7 +17,8 @@ import { UserResolver } from "./resolvers/user";
 import { createUserLoader } from "./utils/createUserLoader";
 
 const main = async (PORT: number) => {
-  const conn = await createConnection({
+  await createConnection({
+    //const conn =
     type: "postgres",
     database: "socialMediaApp",
     username: "postgres",
